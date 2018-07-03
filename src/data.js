@@ -265,6 +265,7 @@ window.sortUsers = (users, orderBy, orderDirection) => {
     const scoreAvgDes = nuevosUsuarios.sort(function (a, b) { return b.stats.quizzes.scoreAvg - a.stats.quizzes.scoreAvg });
     return scoreAvgDes;
   }
+  return nuevosUsuarios;
 }
 
 window.filterUsers = (users, search) => {
