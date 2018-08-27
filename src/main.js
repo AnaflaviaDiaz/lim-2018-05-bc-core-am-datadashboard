@@ -1,4 +1,4 @@
-let options = {
+const options = {
   cohort: '',
   cohortData: {
     users: '',
@@ -30,7 +30,7 @@ const changeSlides = (n) => {
 
 const showSlides = (n) => {
   let i;
-  let x = document.getElementsByClassName("mySlides");
+  const x = document.getElementsByClassName("mySlides");
   if (n > x.length) {
     slideIndex = 1
   }
@@ -125,98 +125,85 @@ const switchOrderBy = (option) => {
     case "ascname":
       options.orderBy = "name";
       options.orderDirection = "asc";
-      let ascname = processCohortData(options);
-      // createTableWithData(ascname);
+      const ascname = processCohortData(options);
       createListWithData(ascname)
       break;
     case "ascperc":
       options.orderBy = "perc";
       options.orderDirection = "asc";
       processCohortData(options);
-      let ascperc = processCohortData(options);
-      // createTableWithData(ascperc);
+      const ascperc = processCohortData(options);
       createListWithData(ascperc)
       break;
     case "ascexer":
       options.orderBy = "exer";
       options.orderDirection = "asc";
-      let ascexer = processCohortData(options);
-      // createTableWithData(ascexer);
+      const ascexer = processCohortData(options);
       createListWithData(ascexer)
       break;
     case "ascread":
       options.orderBy = "read";
       options.orderDirection = "asc";
-      let ascread = processCohortData(options);
-      // createTableWithData(ascread);
+      const ascread = processCohortData(options);
       createListWithData(ascread)
       break;
     case "ascquiz":
       options.orderBy = "quiz";
       options.orderDirection = "asc";
-      let ascquiz = processCohortData(options);
-      // createTableWithData(ascquiz);
+      const ascquiz = processCohortData(options);
       createListWithData(ascquiz)
       break;
     case "ascscor":
       options.orderBy = "scAvg";
       options.orderDirection = "asc";
-      let ascscor = processCohortData(options);
-      // createTableWithData(ascscor);
+      const ascscor = processCohortData(options);
       createListWithData(ascscor)
       break;
     case "desname":
       options.orderBy = "name";
       options.orderDirection = "des";
-      let desname = processCohortData(options);
-      // createTableWithData(desname);
+      const desname = processCohortData(options);
       createListWithData(desname)
       break;
     case "desperc":
       options.orderBy = "perc";
       options.orderDirection = "des";
-      let desperc = processCohortData(options);
-      // createTableWithData(desperc);
+      const desperc = processCohortData(options);
       createListWithData(desperc)
       break;
     case "desexer":
       options.orderBy = "exer";
       options.orderDirection = "des";
-      let desexer = processCohortData(options);
-      // createTableWithData(desexer);
+      const desexer = processCohortData(options);
       createListWithData(desexer)
       break;
     case "desread":
       options.orderBy = "read";
       options.orderDirection = "des";
-      let desread = processCohortData(options);
-      // createTableWithData(desread);
+      const desread = processCohortData(options);
       createListWithData(desread)
       break;
     case "desquiz":
       options.orderBy = "quiz";
       options.orderDirection = "des";
-      let desquiz = processCohortData(options);
-      // createTableWithData(desquiz);
+      const desquiz = processCohortData(options);
       createListWithData(desquiz)
       break;
     case "desscor":
       options.orderBy = "scAvg";
       options.orderDirection = "des";
-      let desscor = processCohortData(options);
-      // createTableWithData(desscor);
+      const desscor = processCohortData(options);
       createListWithData(desscor)
       break;
   }
 }
 
-// método para reducir condigo, solo cambia la url para el request
 const getData = (url, callback) => {
-  let xhr = new XMLHttpRequest();
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
   xhr.onload = () => {
     if (xhr.readyState == 4 && xhr.status == 200) {
-      let xhrjson = JSON.parse(xhr.responseText);
+      const xhrjson = JSON.parse(xhr.responseText);
       callback(null, xhrjson);
     }
   };
@@ -228,7 +215,7 @@ const getPromo = (promo) => {
   selectPromos.innerHTML = "";
   getData('../data/cohorts.json', (err, cohortjson) => {
     cohortjson.map((promotion) => {
-      let idPromo = promotion.id;
+      const idPromo = promotion.id;
       if (promo === idPromo.substring(0, 3)) {
         selectPromos.innerHTML += "<option value='" + idPromo + "'>" + idPromo + "</option>";
       }
@@ -248,14 +235,13 @@ const setCohortsJson = (idCohort) => {
         courses.push(cohort.coursesIndex);
       }
     });
-    // if (courses[0].intro) {
     selectCursos.disabled = false;
-    let nameCourses = Object.keys(courses);
+    const nameCourses = Object.keys(courses);
     nameCourses.map((course) => {
       if (courses[course] !== undefined && Object.values(courses[course]).length > 0) {
         empty.style.display = "none";
         getProgressJson(idCohort, "intro");
-        let keyCourse = Object.keys(courses[course]);
+        const keyCourse = Object.keys(courses[course]);
         keyCourse.map((key) => {
           selectCursos.innerHTML += "<option value='" + keyCourse.toString() + "'>" + courses[course][key].title + "</option>";
         });
@@ -268,7 +254,6 @@ const setCohortsJson = (idCohort) => {
         empty.style.display = "block";
       }
     });
-    // }
   });
   return courses;
 }
@@ -301,11 +286,10 @@ const getCohortsJson = (idCohort) => {
 const getProgressJson = (idCohort, course) => {
   loader.style.display = "block";
   const users = getUsersJson(idCohort);
-  const cohorts = getCohortsJson(idCohort);
   getData('../data/cohorts/lim-2018-03-pre-core-pw/progress.json', (err, progressjson) => {
     if (users.length > 0 && course === "intro") {
       empty.style.display = "none";
-      let courses = ["intro"];
+      const courses = ["intro"];
       //nombre de la función que llamará a processCohortData
       pasandoDatos(users, progressjson, courses);
     } else {
@@ -326,8 +310,7 @@ const pasandoDatos = (users, progress, cohorts) => {
   options.orderBy = "name";
   options.orderDirection = "asc";
   options.search = "";
-  let todo = processCohortData(options);
-  // createTableWithData(todo);
+  const todo = processCohortData(options);
   createListWithData(todo);
 }
 
@@ -406,7 +389,6 @@ const createTableWithData = (todo) => {
   headTable.appendChild(tr1);
   headTable.appendChild(tr2);
 
-  //generar la tabla general
   todo.map(d => {
     if (d.stats !== undefined) {
       const tr = document.createElement("tr");
@@ -571,8 +553,7 @@ const createListWithData = (todo) => {
 
 const searchByName = (str) => {
   options.search = str;
-  let todo = processCohortData(options);
-  // createTableWithData(todo);
+  const todo = processCohortData(options);
   createListWithData(todo);
 }
 
