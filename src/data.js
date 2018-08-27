@@ -1,12 +1,12 @@
 window.computeUsersStats = (users, progress, courses) => {
-  let usersWithStats = users.map((user) => {
+  return users.map((user) => {
     const prog = progress[user.id];
     nameCourse = courses.toString();
     if (prog.hasOwnProperty(nameCourse) && prog.intro.hasOwnProperty('units')) {
       const units = prog.intro.units;
       const nameUnits = Object.keys(units);
 
-      let percentStats = () => {
+      const percentStats = () => {
         progressTotal = nameUnits.reduce((sumProgress, u) => {
           sumProgress += units[u].percent / nameUnits.length;
           return sumProgress;
@@ -14,7 +14,7 @@ window.computeUsersStats = (users, progress, courses) => {
         return Math.round(progressTotal);
       }
 
-      let exerTotal = () => {
+      const exerTotal = () => {
         nameUnits.map(nameUnit => {
           const parts = units[nameUnit].parts;
           const nameParts = Object.keys(parts);
@@ -23,7 +23,7 @@ window.computeUsersStats = (users, progress, courses) => {
               const exercises = parts[namePart].exercises;
               const nameExercises = Object.keys(exercises);
               totalExer = nameExercises.map(nameExercise => {
-                let total = Object.keys(parts[namePart].exercises[nameExercise]);
+                const total = Object.keys(parts[namePart].exercises[nameExercise]);
                 return total;
               });
               return totalExer.length;
@@ -33,7 +33,7 @@ window.computeUsersStats = (users, progress, courses) => {
         return totalExer.length;
       }
 
-      let exerCompleted = () => {
+      const exerCompleted = () => {
         let sumCompleted = 0;
         nameUnits.map(nameUnit => {
           const parts = units[nameUnit].parts;
@@ -44,7 +44,7 @@ window.computeUsersStats = (users, progress, courses) => {
               const nameExercises = Object.keys(exercises);
               nameExercises.map(nameExercise => {
                 if (exercises[nameExercise].hasOwnProperty('completed')) {
-                  let completed = exercises[nameExercise].completed;
+                  const completed = exercises[nameExercise].completed;
                   if (completed > 0) {
                     sumCompleted += completed;
                     return sumCompleted;
@@ -57,14 +57,14 @@ window.computeUsersStats = (users, progress, courses) => {
         return sumCompleted;
       }
 
-      let exerPercent = (completed, total) => {
+      const exerPercent = (completed, total) => {
         if (completed !== 0 && total !== 0) {
           const percent = (completed / total) * 100;
           return Math.round(percent);
         } else return 0;
       }
 
-      let readTotal = () => {
+      const readTotal = () => {
         let reads = [];
         nameUnits.map(nameUnit => {
           const parts = units[nameUnit].parts;
@@ -79,14 +79,14 @@ window.computeUsersStats = (users, progress, courses) => {
         return reads.length;
       }
 
-      let readCompleted = () => {
+      const readCompleted = () => {
         let sumCompleted = 0;
         nameUnits.map(nameUnit => {
           const parts = units[nameUnit].parts;
           const nameParts = Object.keys(parts);
           nameParts.map(namePart => {
             if (parts[namePart].type === 'read') {
-              let completed = parts[namePart].completed;
+              const completed = parts[namePart].completed;
               if (completed > 0) {
                 sumCompleted += completed;
                 return sumCompleted;
@@ -97,14 +97,14 @@ window.computeUsersStats = (users, progress, courses) => {
         return sumCompleted;
       }
 
-      let readPercent = (completed, total) => {
+      const readPercent = (completed, total) => {
         if (completed !== 0 && total !== 0) {
           const percent = (completed / total) * 100;
           return Math.round(percent);
         } else return 0;
       }
 
-      let quizTotal = () => {
+      const quizTotal = () => {
         let quiz = [];
         nameUnits.map(nameUnit => {
           const parts = units[nameUnit].parts;
@@ -119,14 +119,14 @@ window.computeUsersStats = (users, progress, courses) => {
         return quiz.length;
       }
 
-      let quizCompleted = () => {
+      const quizCompleted = () => {
         let sumCompleted = 0;
         nameUnits.map(nameUnit => {
           const parts = units[nameUnit].parts;
           const nameParts = Object.keys(parts);
           nameParts.map(namePart => {
             if (parts[namePart].type === 'quiz') {
-              let completed = parts[namePart].completed;
+              const completed = parts[namePart].completed;
               if (completed > 0) {
                 sumCompleted += completed;
                 return sumCompleted;
@@ -137,21 +137,21 @@ window.computeUsersStats = (users, progress, courses) => {
         return sumCompleted;
       }
 
-      let quizPercent = (completed, total) => {
+      const quizPercent = (completed, total) => {
         if (completed !== 0 && total !== 0) {
           const percent = (completed / total) * 100;
           return Math.round(percent);
         } else return 0;
       }
 
-      let quizScoreSum = () => {
+      const quizScoreSum = () => {
         let sumScore = 0;
         nameUnits.map(nameUnit => {
           const parts = units[nameUnit].parts;
           const nameParts = Object.keys(parts);
           nameParts.map(namePart => {
             if (parts[namePart].type === 'quiz' && parts[namePart].hasOwnProperty('score')) {
-              let score = parts[namePart].score;
+              const score = parts[namePart].score;
               sumScore += score;
               return sumScore;
             }
@@ -160,7 +160,7 @@ window.computeUsersStats = (users, progress, courses) => {
         return sumScore;
       }
 
-      let quizScoreAvg = (sumScore, completed) => {
+      const quizScoreAvg = (sumScore, completed) => {
         if (sumScore !== 0 && completed !== 0) {
           const percent = sumScore / completed;
           return Math.round(percent);
@@ -211,15 +211,14 @@ window.computeUsersStats = (users, progress, courses) => {
     }
     return user;
   });
-  return usersWithStats;
 }
 
 window.sortUsers = (users, orderBy, orderDirection) => {
   const nuevosUsuarios = users.filter(user => user.stats !== undefined);
   if (orderBy === 'name' & orderDirection === 'asc') {
     const nameAsc = nuevosUsuarios.sort(function (a, b) {
-      var x = a.name.toLowerCase();
-      var y = b.name.toLowerCase();
+      const x = a.name.toLowerCase();
+      const y = b.name.toLowerCase();
       if (x < y) { return -1; }
       if (x > y) { return 1; }
       return 0;
@@ -269,10 +268,9 @@ window.sortUsers = (users, orderBy, orderDirection) => {
 }
 
 window.filterUsers = (users, search) => {
-  let filterByUsers = users.filter(user => {
+  return users.filter(user => {
     return user.name.toUpperCase().indexOf(search.toUpperCase()) > -1;
   });
-  return filterByUsers;
 }
 
 window.processCohortData = (options) => {
